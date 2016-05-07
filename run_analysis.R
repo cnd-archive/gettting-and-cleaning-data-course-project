@@ -24,9 +24,17 @@ narrowColumns <- function (df, regex) {
 
 getDataset <- function () {
     regex <- "(mean|std)\\(\\)$"
-    testData <- narrowColumns(getFeatureDataset("UCI HAR Dataset/test/X_test.txt"), regex)
-    trainData <- narrowColumns(getFeatureDataset("UCI HAR Dataset/train/X_train.txt"), regex)
+
+    testFeatures <- narrowColumns(getFeatureDataset("UCI HAR Dataset/test/X_test.txt"), regex)
+    testActivities <- read.table("UCI HAR Dataset/test/y_test.txt", col.names=c("Activity"))
+    testData <- cbind(testActivities, testFeatures)
+
+    trainFeatures <- narrowColumns(getFeatureDataset("UCI HAR Dataset/train/X_train.txt"), regex)
+    trainActivities <- read.table("UCI HAR Dataset/train/y_train.txt", col.names=c("Activity"))
+    trainData <- cbind(trainActivities, trainFeatures)
+
     allData <- rbind(testData, trainData)
-    allData
+
+    activityLabels <- read.table("UCI HAR Dataset/activity_labels.txt")
+    allData$Activity <- factor(allData$Activity, activityLabels$V1, activityLabels$V2)
 }
-# head(narrowColumns(df2, "(mean|std)\\(\\)$"))
