@@ -4,7 +4,7 @@ This repository holds my solution for the [Getting and Cleaning Data course from
 
 You should see the following files in this repository:
 
-* [codebook.md](codebook.md): A codebook describing the tidy dataset provided.
+* [CodeBook.md](CodeBook.md): A codebook describing the tidy dataset provided.
 * [run_analysis.R](run_analysis.R): R code to generate the tidy dataset from the [source dataset](https://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones).
 * [download_data.R](download_data.R): R code to download and extract the source dataset.
 * [tidy_dataset.txt](tidy_dataset.txt): The tidy dataset generated.

@@ -21,7 +21,7 @@ getFeaturesAndActivities <- function(testOrTrain) {
     directory <- paste0("UCI HAR Dataset/", testOrTrain, "/")
     featureFile <- paste0(directory, "X_", testOrTrain, ".txt")
     activityFile <- paste0(directory, "y_", testOrTrain, ".txt")
-
+    
     features <- narrowColumns(getFeatureDataset(featureFile), regex)
     activities <- read.table(activityFile, col.names=c("Activity"))
     data <- cbind(activities, features)
@@ -36,7 +36,7 @@ getDataset <- function () {
 
     activityLabels <- read.table("UCI HAR Dataset/activity_labels.txt")
     allData$Activity <- factor(allData$Activity, activityLabels$V1, activityLabels$V2)
-
+    
     allData
 }
 
