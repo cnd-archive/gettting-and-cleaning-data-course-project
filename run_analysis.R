@@ -1,8 +1,3 @@
-# TODO: 3, 4, 5
-# - add activities
-# - name activities
-# - create final data set
-
 getFeatureLabels <- function () {
     df <- read.table("UCI HAR Dataset/features.txt")
     as.character(df$V2)
@@ -21,20 +16,34 @@ narrowColumns <- function (df, regex) {
     df[,cols]
 }
 
+getFeaturesAndActivities <- function(testOrTrain) {
+    regex <- "(mean|std)\\(\\)$"
+    directory <- paste0("UCI HAR Dataset/", testOrTrain, "/")
+    featureFile <- paste0(directory, "X_", testOrTrain, ".txt")
+    activityFile <- paste0(directory, "y_", testOrTrain, ".txt")
+
+    features <- narrowColumns(getFeatureDataset(featureFile), regex)
+    activities <- read.table(activityFile, col.names=c("Activity"))
+    data <- cbind(activities, features)
+    data
+}
 
 getDataset <- function () {
-    regex <- "(mean|std)\\(\\)$"
-
-    testFeatures <- narrowColumns(getFeatureDataset("UCI HAR Dataset/test/X_test.txt"), regex)
-    testActivities <- read.table("UCI HAR Dataset/test/y_test.txt", col.names=c("Activity"))
-    testData <- cbind(testActivities, testFeatures)
-
-    trainFeatures <- narrowColumns(getFeatureDataset("UCI HAR Dataset/train/X_train.txt"), regex)
-    trainActivities <- read.table("UCI HAR Dataset/train/y_train.txt", col.names=c("Activity"))
-    trainData <- cbind(trainActivities, trainFeatures)
+    testData <- getFeaturesAndActivities("test")
+    trainData <- getFeaturesAndActivities("train")
 
     allData <- rbind(testData, trainData)
 
     activityLabels <- read.table("UCI HAR Dataset/activity_labels.txt")
     allData$Activity <- factor(allData$Activity, activityLabels$V1, activityLabels$V2)
+
+    allData
 }
+
+getSummaryDataset <- function () {
+    df <- getDataset()
+    aggregate(. ~ Activity, data = df, mean)
+}
+
+# To get the summary dataset, run the following:
+# getSummaryDataset()
