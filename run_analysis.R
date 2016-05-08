@@ -21,10 +21,12 @@ getFeaturesAndActivities <- function(testOrTrain) {
     directory <- paste0("UCI HAR Dataset/", testOrTrain, "/")
     featureFile <- paste0(directory, "X_", testOrTrain, ".txt")
     activityFile <- paste0(directory, "y_", testOrTrain, ".txt")
+    subjectFile <- paste0(directory, "subject_", testOrTrain, ".txt")
     
     features <- narrowColumns(getFeatureDataset(featureFile), regex)
     activities <- read.table(activityFile, col.names=c("Activity"))
-    data <- cbind(activities, features)
+    subjects <- read.table(subjectFile, col.names=c("Subject"))
+    data <- cbind(activities, subjects, features)
     data
 }
 
@@ -42,7 +44,7 @@ getDataset <- function () {
 
 getSummaryDataset <- function () {
     df <- getDataset()
-    aggregate(. ~ Activity, data = df, mean)
+    aggregate(. ~ Activity + Subject, data = df, mean)
 }
 
 # To get the summary dataset, run the following:

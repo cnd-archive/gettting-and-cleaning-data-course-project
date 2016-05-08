@@ -9,6 +9,7 @@ A [Fast Fourier Transform (FFT)](https://en.wikipedia.org/wiki/Fast_Fourier_tran
 The tidy dataset contains the mean of several variables for each of six activities. The columns are as follows:
 
 * `Activity`: one of "WALKING", "WALKING\_UPSTAIRS", "WALKING\_DOWNSTAIRS", "SITTING", "STANDING", or "LAYING"
+* `Subject`: the number of the subject (volunteer) being observed
 * `tBodyAccMag-mean()`: the mean of the mean body linear acceleration magnitude
 * `tBodyAccMag-std()`: the mean of the standard deviation of the body linear acceleration magnitude
 * `tGravityAccMag-mean()`: the mean of the mean gravity linear acceleration magnitude
@@ -36,8 +37,9 @@ I transform the source data with the code in [run_analysis.R](run_analysis.R) by
 2. I name the columns using the data in `features.txt`.
 3. I remove all columns that do not end in `std()` or `mean()`.
 4. I load the activities for the test data.
-5. I add the activities to the features to make my test dataset.
-6. I repeat 1-5 for the train data.
-7. I combine the test and train data to get all data.
-8. I turn the "Activity" column into a factor using the labels from `activity_labels.txt`.
-9. I aggregate the data by Activity to get the mean of each column by activity.
+5. I load the subjects for the test data.
+6. I add the subjects and activities to the features to make my test dataset.
+7. I repeat 1-5 for the train data.
+8. I combine the test and train data to get all data.
+9. I turn the "Activity" column into a factor using the labels from `activity_labels.txt`.
+10. I aggregate the data by Activity and Subject to get the mean of each column by activity and subject.
